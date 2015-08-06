@@ -22,7 +22,7 @@ let b:did_indent = 1
 
 " Load base python indent.
 if !exists('*GetPythonIndent')
-  source $VIMRUNTIME/indent/python.vim
+  runtime! indent/python.vim
 endif
 
 " Only enable bzl google indent if python google indent is enabled.
