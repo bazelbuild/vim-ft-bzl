@@ -18,12 +18,13 @@
 if exists('b:did_indent')
   finish
 endif
-let b:did_indent = 1
 
 " Load base python indent.
 if !exists('*GetPythonIndent')
   source $VIMRUNTIME/indent/python.vim
 endif
+
+let b:did_indent = 1
 
 " Only enable bzl google indent if python google indent is enabled.
 if !get(g:, 'no_google_python_indent')
