@@ -1,0 +1,50 @@
+The ft-bzl plugin defines standard settings and syntax definitions for the bzl
+filetype, used for BUILD files and files with a .bzl extension for the Bazel
+build system (http://bazel.io).
+
+In order for these tests to work, maktaba MUST be in the same parent directory
+as ft-bzl. Given that that's the case, all we have to do is source the
+setupvroom.vim file, which bootstraps the ft-bzl plugin and configures it to
+work properly under vroom.
+
+  :source $VROOMDIR/setupvroom.vim
+
+  :syntax on
+  :filetype plugin on
+
+ft-bzl configures some settings for the bzl filetype such as 'comments'.
+
+  :silent file BUILD
+  :set filetype=bzl
+
+  :function CheckEq(actual, expected) abort<CR>
+  |  call maktaba#ensure#IsEqual(a:expected, a:actual)<CR>
+  |endfunction
+
+  :call CheckEq(&comments, 'b:#,fb:-')
+
+It also implements syntax highlighting, so if you have vim syntax support
+enabled you should see nice highlights (similar to python).
+
+  :function GetSynGroupsAtCursor() abort<CR>
+  |  let l:syn_ids = synstack(line('.'), col('.'))<CR>
+  |  return map(copy(l:syn_ids), 'synIDattr(v:val, "name")')<CR>
+  |endfunction
+
+  % cc_library(<CR>
+  |    name = "foo",<CR>
+  |    srcs = [<CR>
+  |        "foo.cc",<CR>
+  |        "foo-impl.h",<CR>
+  |    ],<CR>
+  |    hdrs = ["foo.h"],<CR>
+  |    deps = [<CR>
+  |    ],<CR>
+  |)
+
+  > 1G
+  > /"foo"<CR>
+  :call CheckEq(GetSynGroupsAtCursor(), ['bzlRule', 'pythonString'])
+
+  > /srcs =/;/"foo.cc"<CR>
+  :call CheckEq(GetSynGroupsAtCursor(), ['bzlRule', 'bzlList', 'pythonString'])

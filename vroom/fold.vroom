@@ -1,0 +1,43 @@
+Automatically fold BUILD files by defining g:ft_bzl_fold = 1.
+
+  :source $VROOMDIR/setupvroom.vim
+
+  :let g:ft_bzl_fold = 1
+
+Folding relies on syntax to detect folds, and filetype plugin to enable them.
+
+  :syntax on
+  :filetype plugin on
+
+With folding enabled, this cc_library rule can be collapsed to a fold line with
+nice fold text like this: cc_library( "foo" )  10 lines
+
+  :silent file BUILD
+  :set filetype=bzl
+  % cc_library(<CR>
+  |    name = "foo",<CR>
+  |    srcs = [<CR>
+  |        "foo.cc",<CR>
+  |        "foo-impl.h",<CR>
+  |    ],<CR>
+  |    hdrs = ["foo.h"],<CR>
+  |    deps = [<CR>
+  |    ],<CR>
+  |)
+  :%foldclose
+  :call maktaba#ensure#IsEqual(len(foldtextresult(1)), winwidth(0))
+  :echomsg foldtextresult(1)
+  ~ cc_library\( "foo" \)\s+10 lines (regex)
+
+There will also be inner folds defined for the srcs and deps sections.
+
+  :%foldopen
+  :3,6foldclose
+  :call maktaba#ensure#IsEqual(len(foldtextresult(3)), winwidth(0))
+  :echomsg foldtextresult(3)
+  ~     srcs = \[ ... \],\s+4 lines (regex)
+  :%foldopen
+  :8,9foldclose
+  :call maktaba#ensure#IsEqual(len(foldtextresult(8)), winwidth(0))
+  :echomsg foldtextresult(8)
+  ~     deps = \[  \],\s+2 lines (regex)

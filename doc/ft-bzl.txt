@@ -1,0 +1,15 @@
+*ft-bzl.txt*	Bazel filetype settings (http://bazel.io)
+                                                                      *ft-bzl*
+
+==============================================================================
+CONTENTS                                                     *ft-bzl-contents*
+  1. Introduction...............................................|ft-bzl-intro|
+
+==============================================================================
+INTRODUCTION                                                    *ft-bzl-intro*
+
+Core settings for the bzl filetype, used for BUILD and *.bzl files for the
+Bazel build system (http://bazel.io/).
+
+
+vim:tw=78:ts=8:ft=help:norl:
