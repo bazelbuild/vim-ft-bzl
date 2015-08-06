@@ -21,7 +21,7 @@ endif
 
 " Load base python indent.
 if !exists('*GetPythonIndent')
-  source $VIMRUNTIME/indent/python.vim
+  runtime! indent/python.vim
 endif
 
 let b:did_indent = 1
