@@ -34,6 +34,11 @@ let s:save_shiftwidth = &l:shiftwidth
 let s:save_softtabstop = &l:softtabstop
 let s:save_tabstop = &l:tabstop
 
+" NOTE: Vim versions before 7.3.511 had a ftplugin/python.vim that was broken
+" for compatible mode.
+let s:save_cpo = &cpo
+set cpo&vim
+
 " Load base python ftplugin (also defines b:did_ftplugin).
 source $VIMRUNTIME/ftplugin/python.vim
 
@@ -93,3 +98,6 @@ function BzlFoldText() abort
   let l:padding = repeat(' ', l:width - len(l:lines_folded) - len(l:text))
   return l:text . l:padding . l:lines_folded
 endfunction
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
