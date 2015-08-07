@@ -13,24 +13,19 @@
 " limitations under the License.
 
 " This file bootstraps the ft-bzl plugin and configures it to work properly
-" under vroom.
+" under vroom. It also defines test helpers like CheckEq.
 
-" Install maktaba from local dir.
 let s:repo = expand('<sfile>:p:h:h')
-let s:search_dir = fnamemodify(s:repo, ':h')
-" We'd like to use maktaba#path#Join, but maktaba doesn't exist yet.
-let s:slash = exists('+shellslash') && !&shellslash ? '\' : '/'
-for s:plugin_dirname in ['maktaba', 'vim-maktaba']
-  let s:bootstrap_path_parts = [s:search_dir, s:plugin_dirname, 'bootstrap.vim']
-  let s:bootstrap_path = join(s:bootstrap_path_parts, s:slash)
-  if filereadable(s:bootstrap_path)
-    execute 'source' s:bootstrap_path
-    break
-  endif
-endfor
 
 " Install the ft-bzl plugin.
-call maktaba#plugin#GetOrInstall(s:repo)
+execute 'set runtimepath+=' . s:repo
 
-" Support vroom's fake shell executable and don't try to override it to sh.
-call maktaba#syscall#SetUsableShellRegex('\v<shell\.vroomfaker$')
+function CheckEq(actual, expected) abort
+  if type(a:actual) == type(a:expected) && a:actual ==# a:expected
+    return a:actual
+  endif
+  let l:fmt = 'ERROR(BadValue): Expected %s. Got %s.'
+  echohl ErrorMsg
+  echomsg printf(l:fmt, string(a:expected), string(a:actual))
+  echohl NONE
+endfunction

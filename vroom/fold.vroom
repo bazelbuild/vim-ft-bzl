@@ -1,6 +1,12 @@
-Automatically fold BUILD files by defining g:ft_bzl_fold = 1.
+ft-bzl implements syntax-based folding support.
+
+Before demonstrating how it works, this file needs to source the setupvroom.vim
+file, which bootstraps the ft-bzl plugin and configures it to work properly
+under vroom. It also defines the CheckEq helper.
 
   :source $VROOMDIR/setupvroom.vim
+
+You can enable automatic folding for BUILD files by defining g:ft_bzl_fold = 1.
 
   :let g:ft_bzl_fold = 1
 
@@ -25,7 +31,7 @@ nice fold text like this: cc_library( "foo" )  10 lines
   |    ],<CR>
   |)
   :%foldclose
-  :call maktaba#ensure#IsEqual(len(foldtextresult(1)), winwidth(0))
+  :call CheckEq(len(foldtextresult(1)), winwidth(0))
   :echomsg foldtextresult(1)
   ~ cc_library\( "foo" \)\s+10 lines (regex)
 
@@ -33,11 +39,11 @@ There will also be inner folds defined for the srcs and deps sections.
 
   :%foldopen
   :3,6foldclose
-  :call maktaba#ensure#IsEqual(len(foldtextresult(3)), winwidth(0))
+  :call CheckEq(len(foldtextresult(3)), winwidth(0))
   :echomsg foldtextresult(3)
   ~     srcs = \[ ... \],\s+4 lines (regex)
   :%foldopen
   :8,9foldclose
-  :call maktaba#ensure#IsEqual(len(foldtextresult(8)), winwidth(0))
+  :call CheckEq(len(foldtextresult(8)), winwidth(0))
   :echomsg foldtextresult(8)
   ~     deps = \[  \],\s+2 lines (regex)

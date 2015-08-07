@@ -2,10 +2,9 @@ The ft-bzl plugin defines standard settings and syntax definitions for the bzl
 filetype, used for BUILD files and files with a .bzl extension for the Bazel
 build system (http://bazel.io).
 
-In order for these tests to work, maktaba MUST be in the same parent directory
-as ft-bzl. Given that that's the case, all we have to do is source the
-setupvroom.vim file, which bootstraps the ft-bzl plugin and configures it to
-work properly under vroom.
+Before demonstrating how it works, this file needs to source the setupvroom.vim
+file, which bootstraps the ft-bzl plugin and configures it to work properly
+under vroom. It also defines the CheckEq helper.
 
   :source $VROOMDIR/setupvroom.vim
 
@@ -16,10 +15,6 @@ ft-bzl configures some settings for the bzl filetype such as 'comments'.
 
   :silent file BUILD
   :set filetype=bzl
-
-  :function CheckEq(actual, expected) abort<CR>
-  |  call maktaba#ensure#IsEqual(a:expected, a:actual)<CR>
-  |endfunction
 
   :call CheckEq(&comments, 'b:#,fb:-')
 
