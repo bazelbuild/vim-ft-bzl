@@ -42,6 +42,9 @@ set cpo&vim
 " Load base python ftplugin (also defines b:did_ftplugin).
 source $VIMRUNTIME/ftplugin/python.vim
 
+" NOTE: Vim versions before 7.4.104 and later set this in ftplugin/python.vim.
+setlocal comments=b:#,fb:-
+
 " Restore pre-existing indentation settings.
 let &l:expandtab = s:save_expandtab
 let &l:shiftwidth = s:save_shiftwidth
