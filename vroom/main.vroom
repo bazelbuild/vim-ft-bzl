@@ -39,7 +39,8 @@ enabled you should see nice highlights (similar to python).
 
   > 1G
   > /"foo"<CR>
-  :call CheckEq(GetSynGroupsAtCursor(), ['bzlRule', 'pythonString'])
+  :call CheckContainsAll(GetSynGroupsAtCursor(), ['bzlRule', 'pythonString'])
 
   > /srcs =/;/"foo.cc"<CR>
-  :call CheckEq(GetSynGroupsAtCursor(), ['bzlRule', 'bzlList', 'pythonString'])
+  :let g:expected_groups = ['bzlRule', 'bzlList', 'pythonString']
+  :call CheckContainsAll(GetSynGroupsAtCursor(), g:expected_groups)
