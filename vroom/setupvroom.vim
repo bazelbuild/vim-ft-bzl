@@ -21,11 +21,22 @@ let s:repo = expand('<sfile>:p:h:h')
 execute 'set runtimepath+=' . s:repo
 
 function CheckEq(actual, expected) abort
-  if type(a:actual) == type(a:expected) && a:actual ==# a:expected
-    return a:actual
+  if type(a:actual) != type(a:expected) || a:actual !=# a:expected
+    let l:fmt = 'ERROR(BadValue): Expected %s. Got %s.'
+    echohl ErrorMsg
+    echomsg printf(l:fmt, string(a:expected), string(a:actual))
+    echohl NONE
   endif
-  let l:fmt = 'ERROR(BadValue): Expected %s. Got %s.'
-  echohl ErrorMsg
-  echomsg printf(l:fmt, string(a:expected), string(a:actual))
-  echohl NONE
+  return a:actual
+endfunction
+
+function CheckContainsAll(actual, items) abort
+  let l:missing = filter(copy(a:items), 'index(a:actual, v:val) == -1')
+  if !empty(l:missing)
+    let l:fmt = 'ERROR(BadValue): Expected %s to contain %s. Missing %s.'
+    echohl ErrorMsg
+    echomsg printf(l:fmt, string(a:actual), string(a:items), string(l:missing))
+    echohl NONE
+  endif
+  return a:actual
 endfunction
