@@ -12,4 +12,4 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 
-autocmd BufRead,BufNewFile *.bzl,BUILD,WORKSPACE setfiletype bzl
+autocmd BufRead,BufNewFile *.bzl,BUILD,BUILD.bazel,WORKSPACE setfiletype bzl
