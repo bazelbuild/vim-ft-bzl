@@ -12,4 +12,7 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 
-autocmd BufRead,BufNewFile *.bzl,BUILD,*.BUILD,BUILD.*,WORKSPACE setfiletype bzl
+autocmd BufRead,BufNewFile *.bzl,WORKSPACE setfiletype bzl
+if has('fname_case')
+  autocmd BufRead,BufNewFile BUILD,*.BUILD,BUILD.* setfiletype bzl
+endif
