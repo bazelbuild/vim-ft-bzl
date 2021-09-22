@@ -53,6 +53,9 @@ let &l:tabstop = s:save_tabstop
 
 setlocal formatoptions-=t
 
+" Initially defined in the python ftplugin sourced above
+let b:undo_ftplugin .= " | setlocal fo<"
+
 " Make gf work with imports in BUILD files.
 setlocal includeexpr=substitute(v:fname,'//','','')
 
@@ -60,6 +63,7 @@ setlocal includeexpr=substitute(v:fname,'//','','')
 if get(g:, 'ft_bzl_fold', 0)
   setlocal foldmethod=syntax
   setlocal foldtext=BzlFoldText()
+  let b:undo_ftplugin .= " | setlocal fdm< fdt<"
 endif
 
 if exists('*BzlFoldText')
